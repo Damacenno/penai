@@ -14,6 +14,8 @@ class RedactionController extends Controller
     {
         $user = Auth::user();
 
+
+
         $data = [
             'choices' => [
                 [
@@ -28,8 +30,9 @@ class RedactionController extends Controller
         $conteudoJson = $data['choices'][0]['message']['content'] ?? null;
         $jsonDecodificado = json_decode($conteudoJson, true);
 
+
         if (!$jsonDecodificado) {
-            echo 'ERRO';
+            echo 'ERRO decodificar';
             die();
         }
 
@@ -41,6 +44,7 @@ class RedactionController extends Controller
         $correction = Correction::create([
             'id_user' => Auth::id() ?? 1, // ou um user fake se ainda não tiver login
             'id_redaction' => $redaction->id,
+            'nota_geral'=> $jsonDecodificado['nota_geral']['nota_geral'],
             'created_at' => now(),
         ]);
 
@@ -50,5 +54,41 @@ class RedactionController extends Controller
         ]);
 
         return redirect("/correction/{$correction->id}");
+    }
+
+
+    private function separarEstruturaRedacao($texto)
+    {
+        $paragrafos = preg_split("/\n\s*\n/", trim($texto));
+
+        $introducao = '';
+        $desenvolvimento = [];
+        $conclusao = '';
+
+        $qtd = count($paragrafos);
+
+        if ($qtd === 1) {
+            $introducao = $paragrafos[0];
+        } elseif ($qtd === 2) {
+            $introducao = $paragrafos[0];
+            $conclusao = $paragrafos[1];
+        } elseif ($qtd === 3) {
+            $introducao = $paragrafos[0];
+            $desenvolvimento[] = $paragrafos[1];
+            $conclusao = $paragrafos[2];
+        } else {
+            $introducao = $paragrafos[0];
+            $conclusao = $paragrafos[$qtd - 1];
+            for ($i = 1; $i < $qtd - 1; $i++) {
+                $desenvolvimento[] = $paragrafos[$i];
+            }
+        }
+
+        return [
+            'introducao' => $introducao,
+            'desenvolvimento' => $desenvolvimento,
+            'conclusao' => $conclusao,
+            'paragrafos' => $paragrafos, 
+        ];
     }
 }

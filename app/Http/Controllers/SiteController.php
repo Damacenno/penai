@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Correction;
+use App\Models\DailyThemes;
 use App\Models\Redactions;
 use Illuminate\Http\Request;
 
@@ -21,12 +22,13 @@ class SiteController extends Controller
         if (!$correction) {
             abort(404, 'Correção não encontrada');
         }
-        return view('correction', compact('correction','payload'));
+        return view('correction', compact('correction', 'payload'));
     }
 
     public function new_redaction()
     {
-        return view('write_essay');
+        $themes = DailyThemes::where('active', 1)->get();
+        return view('write_essay', compact('themes'));
     }
 
 

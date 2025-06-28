@@ -3,15 +3,14 @@
 @section('title', 'Home')
 
 @section('content')
-
+{{ auth()->user()->accumulated_points }}
     <a href="{{ route('site.redaction')}}">
-            <button
-                class=" px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform
-        bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
-        Nova Redação
+        <button
+            class=" px-6 py-2 font-medium tracking-wide text-white capitalize transition-colors duration-300 transform
+            bg-blue-600 rounded-lg hover:bg-blue-500 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-80">
+            Nova Redação
         </button>
     </a>
-
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         @foreach ($corrections as $correction)
             <div class="w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md dark:bg-gray-800">
