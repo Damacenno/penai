@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Correction extends Model
 {
     protected $table = 'penai_corrections';
+    protected $fillable = [
+        'id_user',
+        'id_redaction',
+        'nota_geral'
+    ];
     use HasFactory;
 
     public function redaction()
@@ -17,11 +22,11 @@ class Correction extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
 
     public function details()
-{
-    return $this->hasMany(CorrectionDetails::class, 'id_correction');
-}
+    {
+        return $this->hasMany(CorrectionDetails::class, 'id_correction');
+    }
 }

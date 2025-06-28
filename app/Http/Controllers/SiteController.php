@@ -10,7 +10,7 @@ class SiteController extends Controller
 {
     public function index()
     {
-        $corrections = Correction::with(['redaction', 'user'])->get();
+        $corrections = Correction::with('redaction')->get();
         return view('home', compact('corrections'));
     }
 
@@ -21,12 +21,13 @@ class SiteController extends Controller
         if (!$correction) {
             abort(404, 'Correção não encontrada');
         }
-        return view('correction', compact('payload'));
+        return view('correction', compact('correction','payload'));
     }
 
     public function new_redaction()
     {
         return view('write_essay');
     }
+
 
 }

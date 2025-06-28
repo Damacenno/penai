@@ -8,6 +8,7 @@
 </head>
 
 <body>
+    {{ $correction }}
     Nota Geral: {{ $payload['nota_geral']['nota_geral'] }}
     <br><br>
     Comentário Geral: {{ $payload['nota_geral']['comentario_geral'] }}

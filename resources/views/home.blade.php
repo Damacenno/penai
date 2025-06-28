@@ -17,7 +17,7 @@
             <div class="w-full max-w-sm px-4 py-3 bg-white rounded-md shadow-md dark:bg-gray-800">
                 <div class="flex items-center justify-between">
                     <span
-                        class="text-sm font-light text-gray-800 dark:text-gray-400">{{$correction->redaction->date_occ}}</span>
+                        class="text-sm font-light text-gray-800 dark:text-gray-400">{{$correction->redaction->created_at}}</span>
                     <a href="{{ route('site.correction', $correction->id) }}">
                         <span
                             class="px-3 py-1 text-xs text-blue-800 uppercase bg-blue-200 rounded-full dark:bg-blue-300 dark:text-blue-900">correção</span>

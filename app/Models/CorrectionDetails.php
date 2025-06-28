@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class CorrectionDetails extends Model
 {
     protected $table = 'penai_correction_details';
+    protected $fillable = [
+        'id_correction',
+        'json_details'
+    ];
     use HasFactory;
 
      public function corrections()

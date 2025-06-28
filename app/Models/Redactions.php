@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Redactions extends Model
 {
     protected $table = 'penai_redactions';
+    protected $fillable = [
+        'title',
+        'description',
+        'redaction'
+    ];
     use HasFactory;
 
     public function corrections()
@@ -17,6 +22,6 @@ class Redactions extends Model
 
     public function user()
     {
-        return $this->belongsTo(Users::class, 'id_user');
+        return $this->belongsTo(User::class, 'id_user');
     }
 }
