@@ -11,24 +11,25 @@ class SiteController extends Controller
 {
     public function index()
     {
-        $corrections = Correction::with('redaction')->get();
-        return view('home', compact('corrections'));
+        $daily_themes = DailyThemes::all();
+        return view('home', compact('daily_themes'));
     }
 
     public function detail_correction($slug)
     {
-        $correction = Correction::with('details')->where('id', $slug)->first();
-        $payload = json_decode($correction->details[0]->json_details, true);
+        $correction = Correction::with(['details', 'redaction'])->where('id', $slug)->first();
         if (!$correction) {
             abort(404, 'Correção não encontrada');
         }
+        $payload = json_decode($correction->details[0]->json_details, true);
         return view('correction', compact('correction', 'payload'));
     }
 
-    public function new_redaction()
+    public function corrections_history()
     {
-        $themes = DailyThemes::where('active', 1)->get();
-        return view('write_essay', compact('themes'));
+        $corrections = Correction::with('redaction')->get();
+        $daily_themes = DailyThemes::all();
+        return view('corrections_history', compact(['corrections', 'daily_themes']));
     }
 
 
