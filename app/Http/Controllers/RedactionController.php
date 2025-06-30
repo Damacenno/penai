@@ -5,6 +5,7 @@ use App\Models\Redactions;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Correction;
 use App\Models\CorrectionDetails;
+use App\Models\DailyThemes;
 
 use Illuminate\Http\Request;
 
@@ -30,21 +31,23 @@ class RedactionController extends Controller
         $conteudoJson = $data['choices'][0]['message']['content'] ?? null;
         $jsonDecodificado = json_decode($conteudoJson, true);
 
-
-        if (!$jsonDecodificado) {
-            echo 'ERRO decodificar';
-            die();
-        }
+        $theme = DailyThemes::find($request->tema_id);
 
         $redaction = Redactions::create([
-            'redaction' => $request->texto,
+            'title' => $theme?->theme_title ?? 'Tema não encontrado',
+            'description' => 'Descrição automática ou do tema escolhido',
+            'redaction_intro' => $request->redaction_intro,
+            'redaction_desenvolv' => $request->redaction_desenvolv,
+            'redaction_desenvolv_2' => $request->redaction_desenvolv2,
+            'redaction_conclusion' => $request->redaction_conclusion,
             'created_at' => now()
         ]);
 
+
         $correction = Correction::create([
-            'id_user' => Auth::id() ?? 1, // ou um user fake se ainda não tiver login
+            'id_user' => Auth::id() ?? 1,
             'id_redaction' => $redaction->id,
-            'nota_geral'=> $jsonDecodificado['nota_geral']['nota_geral'],
+            'nota_geral' => $jsonDecodificado['nota_geral']['nota_geral'],
             'created_at' => now(),
         ]);
 
@@ -88,7 +91,7 @@ class RedactionController extends Controller
             'introducao' => $introducao,
             'desenvolvimento' => $desenvolvimento,
             'conclusao' => $conclusao,
-            'paragrafos' => $paragrafos, 
+            'paragrafos' => $paragrafos,
         ];
     }
 }

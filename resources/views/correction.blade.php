@@ -29,11 +29,11 @@
                         $nota = $correction->nota_geral;
                         $percentual = min(100, ($nota / 1000) * 100); // Garante até 100%
                         $cor = 'bg-red-500';
-                        if ($nota >= 800) {
+                        if ($nota >= 700) {
                             $cor = 'bg-green-500';
-                        } elseif ($nota >= 600) {
+                        } elseif ($nota >= 540) {
                             $cor = 'bg-yellow-400';
-                        } elseif ($nota >= 400) {
+                        } elseif ($nota >= 300) {
                             $cor = 'bg-orange-400';
                         }
                     @endphp
@@ -51,7 +51,11 @@
                         </div>
 
                         <p class="text-sm text-gray-700 leading-relaxed"><strong>Comentário Geral:</strong>
-                            {{ $correction->comentario_geral }}</p>
+                            @php
+                                // Pega o json_details do primeiro item de 'details'
+                                $json = json_decode($correction->details[0]->json_details, true);
+                                $comentarioGeral = $json['nota_geral']['comentario_geral'] ?? 'Comentário geral não encontrado.';
+                            @endphp {{ $comentarioGeral }}</p>
                     </div>
 
                 </div>

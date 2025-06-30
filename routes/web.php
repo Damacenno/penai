@@ -14,4 +14,4 @@ Route::get('/writing', [SiteController::class, 'new_redaction'])->name('site.red
 
 Route::view('/login', 'login.form')->name('login.form');
 Route::post('/auth', [LoginController::class, 'auth'])->name('login.auth');
-Route::post('/sendredaction', [RedactionController::class, 'send_redaction'])->name('send.redaction');
+Route::post('/send_redaction', [RedactionController::class, 'send_redaction'])->name('send.redaction');

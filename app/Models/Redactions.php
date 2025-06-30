@@ -11,7 +11,11 @@ class Redactions extends Model
     protected $fillable = [
         'title',
         'description',
-        'redaction'
+        'redaction_intro',
+        'redaction_desenvolv',
+        'redaction_desenvolv2', 
+        'redaction_conclusion',
+        'created_at'
     ];
     use HasFactory;
 
